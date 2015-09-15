@@ -5,7 +5,7 @@ RUN yum groupinstall -y "Development tools"
 # Dependancies for downloading and compilling Python
 RUN yum install -y \
     tar \
-    wget \
+    curl \
     python-devel \
     zlib-devel \
     bzip2-devel \

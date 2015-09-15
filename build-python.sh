@@ -23,15 +23,13 @@ mkdir -p ${USER_HOME}
 
 # Downloading and installing Python
 cd /tmp/
-wget https://www.python.org/ftp/python/${PY_VERSION}/Python-${PY_VERSION}.tar.xz
-tar xf Python-${PY_VERSION}.tar.xz
+curl https://www.python.org/ftp/python/${PY_VERSION}/Python-${PY_VERSION}.tar.xz | tar xf
 cd Python-${PY_VERSION}
 ./configure --prefix ${PREFIX} --enable-unicode=ucs4
 make && make altinstall
 
 # Installing pip
-wget https://bootstrap.pypa.io/get-pip.py
-$PYTHON get-pip.py
+curl https://bootstrap.pypa.io/get-pip.py | $PYTHON
 
 # Installing Python packages which needs compilation
 $PIP install --no-cache-dir \
