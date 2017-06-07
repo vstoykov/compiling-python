@@ -39,4 +39,4 @@ RUN yum install -y \
 COPY build-python.sh /usr/local/bin/build-python.sh
 RUN chmod 755 /usr/local/bin/build-python.sh
 
-CMD ["/usr/local/bin/build-python.sh"]
+ENTRYPOINT ["/usr/local/bin/build-python.sh"]

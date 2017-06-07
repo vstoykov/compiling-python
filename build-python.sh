@@ -1,16 +1,15 @@
 #!/bin/bash
 
+USERNAME=$1
+PY_VERSION=$2
+
 if [ -z "$USERNAME" ]; then
-  USERNAME=$(echo `ls /home/` | awk '{ print $1 }')
-  if [ -z "$USERNAME" ]; then
-    echo "There is no user defined in USERNAME and there is no attached directory in /home/."
-    echo "You need to provide such in order to compile user specific Python."
-    exit 1
-  fi
+  echo "You need to provide username"
+  exit 1
 fi
 
 if [ -z "$PY_VERSION" ]; then
-  PY_VERSION=2.7.10
+  PY_VERSION=2.7.13
 fi
 
 USER_HOME=/home/${USERNAME}
@@ -23,9 +22,9 @@ mkdir -p ${USER_HOME}
 
 # Downloading and installing Python
 cd /tmp/
-curl https://www.python.org/ftp/python/${PY_VERSION}/Python-${PY_VERSION}.tar.xz | tar xf
+curl https://www.python.org/ftp/python/${PY_VERSION}/Python-${PY_VERSION}.tgz | tar xzf -
 cd Python-${PY_VERSION}
-./configure --prefix ${PREFIX} --enable-unicode=ucs4
+./configure --prefix ${PREFIX}
 make && make altinstall
 
 # Installing pip
