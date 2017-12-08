@@ -1,10 +1,10 @@
 #!/bin/bash
 
-USERNAME=$1
+PREFIX=$1
 PY_VERSION=$2
 
-if [ -z "$USERNAME" ]; then
-  echo "You need to provide username"
+if [ -z "$PREFIX" ]; then
+  echo "You need to provide prefix"
   exit 1
 fi
 
@@ -12,13 +12,8 @@ if [ -z "$PY_VERSION" ]; then
   PY_VERSION=2.7.13
 fi
 
-USER_HOME=/home/${USERNAME}
-PREFIX=${USER_HOME}/.local
 PYTHON=${PREFIX}/bin/python${PY_VERSION%.*}
-PIP=${PREFIX}/bin/pip
-
-# Ensure user's home directory exists
-mkdir -p ${USER_HOME}
+PIP=${PYTHON} -m pip
 
 # Downloading and installing Python
 cd /tmp/
@@ -31,7 +26,7 @@ make && make altinstall
 curl https://bootstrap.pypa.io/get-pip.py | $PYTHON
 
 # Installing Python packages which needs compilation
-$PIP install --no-cache-dir \
+$PIP install \
     Pillow \
     MySQL-python \
     psycopg2 \
@@ -39,15 +34,8 @@ $PIP install --no-cache-dir \
     reportlab
 
 # Install some other usefull packages
-$PIP install --no-cache-dir \
+$PIP install \
     virtualenvwrapper \
     ipython
 
-# Make archive for easy transfer and installing
-cd ${USER_HOME}
-archive_name=Python-${PY_VERSION}-${USERNAME}.tar.gz
-tar czvf $archive_name .local
-
-echo "Python installation is complete!"
-echo "You can copy the file ${archive_name} to your shared hosting"
-echo "and extract it in your home directory ${USER_HOME}"
+echo "Python compilation is complete!"

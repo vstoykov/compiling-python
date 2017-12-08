@@ -1,26 +1,25 @@
 #!/bin/bash
 
-username=$1
+prefix=$1
 py_version=$2
 uid=$(id -u)
 gid=$(id -g)
 
-if [ -z "$username" ]; then
-  echo "Usage $0 <username> [py_version]"
+if [ -z "$prefix" ]; then
+  echo "Usage $0 <prefix> [py_version]"
   exit 1
 fi
 
-user_home=/home/$username
-build_dir=/tmp/python-user-build/$username
+build_dir=`mktemp -d --tmpdir python-custom-build-XXXX`
 
-# Ensure that the build directory exists
-mkdir -p $build_dir
+docker run --rm --user="$uid:$gid" -v $build_dir:$prefix:z vstoykov/compiling-python $prefix $py_version
 
-# Clean the build directory from previous builds
-rm -f $build_dir/Python-*.tar.gz
-rm -rf $build_dir/.local
+# Make archive for easy transfer and installing
+archive=$(pwd)/Python-${py_version}${prefix//\//-}.tar.gz
+cd $build_dir
+tar czvf $archive .
 
-docker run --rm -it --user="$uid:$gid" -v $build_dir:$user_home:z vstoykov/compiling-python $username $py_version
+echo "You can extract $(basename $archive) in $prefix"
 
-# Move resulting file to current directory
-mv -i $build_dir/Python-*.tar.gz ./
+# Cleanup build directory
+rm -rf $build_dir
