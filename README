@@ -1,7 +1,0 @@
-Compiling Python
-----------------
-
-This is collection of scripts for automatic python compilation.
-Produced Python is not intended for global instal in a systm but instead
-it is build for using in a shared hosting. For that reason there is a Docker file
-for creating a Docker image with CenotOS 6 and compiling Python inside a container
