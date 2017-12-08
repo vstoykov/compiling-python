@@ -17,8 +17,8 @@ Usage:
 Use Docker image created with `build-python.sh` inside to build Python for CenotOS 6.
 (Docker image is created from the Dockerfile. You can simply run `make` to create the 
 image locally if youo do not trust Docker).
-This script will create tar.gz archive that can be extracted at the given during
-compilation prefix.
+This script will create tar.gz archive that can be extracted at the given (during
+compilation) prefix.
 
 Produced Python is not intended for global instal in a systm but instead
 it is build for using in a shared hosting. For that reason there is a Docker file
