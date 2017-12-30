@@ -27,8 +27,7 @@ cd Python-${PY_VERSION}
 ./configure --prefix ${PREFIX} ${CONFIGURE_OPTIONS}
 make && make altinstall
 
-# Installing pip
-curl https://bootstrap.pypa.io/get-pip.py | $PYTHON
+$PYTHON /usr/local/bin/get-pip.py
 
 # Installing Python packages which needs compilation
 $PIP install \

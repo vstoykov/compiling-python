@@ -37,6 +37,7 @@ RUN yum install -y \
     libxml2-devel
 
 COPY build-python.sh /usr/local/bin/build-python.sh
+COPY get-pip.py /usr/local/bin/get-pip.py
 RUN chmod 755 /usr/local/bin/build-python.sh
 
 ENTRYPOINT ["/usr/local/bin/build-python.sh"]
