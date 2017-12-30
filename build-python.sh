@@ -2,6 +2,7 @@
 
 PREFIX=$1
 PY_VERSION=$2
+PACKAGES="${@:3}"
 
 if [ -z "$PREFIX" ]; then
   echo "You need to provide prefix"
@@ -12,8 +13,8 @@ if [ -z "$PY_VERSION" ]; then
   PY_VERSION=2.7.13
 fi
 
+PYTHON_DOWNLOAD_URL=https://www.python.org/ftp/python/${PY_VERSION}/Python-${PY_VERSION}.tgz
 PYTHON=${PREFIX}/bin/python${PY_VERSION%.*}
-PIP=${PYTHON} -m pip
 CONFIGURE_OPTIONS=""
 
 if [[ $PY_VERSION == 2.* ]]; then
@@ -22,24 +23,16 @@ fi
 
 # Downloading and installing Python
 cd /tmp/
-curl https://www.python.org/ftp/python/${PY_VERSION}/Python-${PY_VERSION}.tgz | tar xzf -
+echo "Downloading $PYTHON_DOWNLOAD_URL ..."
+curl $PYTHON_DOWNLOAD_URL | tar xzf -
 cd Python-${PY_VERSION}
 ./configure --prefix ${PREFIX} ${CONFIGURE_OPTIONS}
 make && make altinstall
 
 $PYTHON /usr/local/bin/get-pip.py
 
-# Installing Python packages which needs compilation
-$PIP install \
-    Pillow \
-    MySQL-python \
-    psycopg2 \
-    lxml \
-    reportlab
-
-# Install some other usefull packages
-$PIP install \
-    virtualenvwrapper \
-    ipython
+if [ ! -z "$PACKAGES" ]; then
+    ${PYTHON} -m pip install $PACKAGES
+fi
 
 echo "Python compilation is complete!"
