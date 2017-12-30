@@ -14,12 +14,17 @@ fi
 
 PYTHON=${PREFIX}/bin/python${PY_VERSION%.*}
 PIP=${PYTHON} -m pip
+CONFIGURE_OPTIONS=""
+
+if [[ $PY_VERSION == 2.* ]]; then
+    CONFIGURE_OPTIONS="--enable-unicode=ucs4"
+fi
 
 # Downloading and installing Python
 cd /tmp/
 curl https://www.python.org/ftp/python/${PY_VERSION}/Python-${PY_VERSION}.tgz | tar xzf -
 cd Python-${PY_VERSION}
-./configure --prefix ${PREFIX}
+./configure --prefix ${PREFIX} ${CONFIGURE_OPTIONS}
 make && make altinstall
 
 # Installing pip
