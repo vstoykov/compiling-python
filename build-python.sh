@@ -10,7 +10,7 @@ if [ -z "$PREFIX" ]; then
 fi
 
 if [ -z "$PY_VERSION" ]; then
-  PY_VERSION=2.7.13
+  PY_VERSION=3.6.6
 fi
 
 PYTHON_DOWNLOAD_URL=https://www.python.org/ftp/python/${PY_VERSION}/Python-${PY_VERSION}.tgz

@@ -10,7 +10,7 @@ if [ -z "$username" ]; then
 fi
 
 if [ -z "$py_version" ]; then
-    py_version=2.7.13
+    py_version=3.6.6
 fi
 
 prefix=/home/$username/.local
